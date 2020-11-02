@@ -9,6 +9,12 @@
         @handleEdit="editTrans" 
         @cancel="closeModalTrans">
       </ModalTransaction>
+      <ModalAccountType 
+        :propsModalType="modalType" 
+        :dataEditType="dataType"
+        @handleEditType="editType" 
+        @cancelType="closeModalType">
+      </ModalAccountType>
       <b-row align-h="center" class="mt-4">
         <b-col >
           <b-row>
@@ -30,9 +36,9 @@
           <div class="d-block mb-4">
             <h3>Add Account Type</h3>
           </div>
-          <AddAccountType @insertAccount="insertNewAccount"></AddAccountType>
+            <AddAccountType @insertAccount="insertNewAccount"></AddAccountType>
           <div class="d-block">
-            <ListAccountType :accountType="accountType"></ListAccountType>
+            <ListAccountType @handleEditType="showModalType" @handleDeleteType="deleteType" :accountType="accountType"></ListAccountType>
           </div>
         </b-col>
       </b-row>
@@ -54,16 +60,19 @@ import AddAccountType from '@/components/AddAccountType.vue'
 import ListAccountType from '@/components/ListAccountType.vue'
 import ListTransaction from '@/components/ListTransaction.vue'
 import ModalTransaction from '@/components/modals/Transaction.vue'
+import ModalAccountType from '@/components/modals/AccountType.vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
-    Authenticate, AddAccountType, ListAccountType, ModalTransaction, ListTransaction
+    Authenticate, AddAccountType, ListAccountType, ModalTransaction, ListTransaction, ModalAccountType
   },
   data() {
     return {
       modalTrans: false,
+      modalType: false,
+      dataType: null,
       form: {
         amount: '',
         category: '',
@@ -89,10 +98,13 @@ export default {
   },
   methods: {
     ...mapActions('User',['setNewUser', 'checkExistUser', 'logoutUser']),
-    ...mapActions('Account',['addNewAccountType', 'addNewTransaction','updateTransaction','deleteTransaction']),
-    // newUser(){
-    //   this.setNewUser(user)
-    // },
+    ...mapActions('Account',[
+      'addNewAccountType', 
+      'addNewTransaction',
+      'updateTransaction',
+      'deleteTransaction',
+      'updateAccountType',
+      'deleteAccountType']),
     authenticateUser(dataUser){
       this.checkExistUser(dataUser)
     },
@@ -111,7 +123,6 @@ export default {
       this.modalTrans = !this.modalTrans
     },
     editModalTrans(stateModal, data){
-      console.log(stateModal, data)
       this.modalTrans = !this.modalTrans
       this.stateTransaction= stateModal
       this.dataTransaction = data
@@ -120,14 +131,28 @@ export default {
       this.stateTransaction= false
       this.modalTrans = false
     },
+    showModalType(data){
+      this.modalType = !this.modalType
+      this.dataType = data
+    },
+    closeModalType(){
+      this.modalType = false
+    },
     addNewTrans(data, bool){
       this.modalTrans = bool
       this.addNewTransaction(data)
     },
     editTrans(data, id, bool){
-    console.log('editTrans: ',data, id, bool)
+      this.stateTransaction= false
       this.modalTrans = bool
       this.updateTransaction(data)
+    },
+    editType(data, bool){
+      this.modalType = bool
+      this.updateAccountType(data)
+    },
+    deleteType(index){
+      this.deleteAccountType(index)
     },
     delTransaction(index){
       this.deleteTransaction(index)

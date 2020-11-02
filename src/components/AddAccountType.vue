@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <b-form-input v-model="typeName" placeholder="Type of account"></b-form-input>
+    <b-form-input v-model="typeName" @keyup.enter="submitData" placeholder="Type of account"></b-form-input>
     <b-button @click="submitData" class="ml-3" size="sm" variant="outline-primary">Create</b-button>
   </div>
 </template>
@@ -14,7 +14,11 @@ export default {
   },
   methods: {
     submitData(){
-      this.$emit('insertAccount', this.typeName)
+      let data = {
+        id: Math.floor((Math.random() * 1000) + 1),
+        name: this.typeName
+      }
+      this.$emit('insertAccount', data)
       this.typeName= ''
     }
   }

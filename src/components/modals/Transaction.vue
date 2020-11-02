@@ -1,6 +1,20 @@
 <template>
   <b-modal title="Record Your Transaction" v-model="propsModal" centered hide-footer>
     <b-form @submit="addNewTrans" @reset="resetForm">
+      <b-form-group label="Account Type" 
+        label-for="radio-group-type"
+        label-cols-sm="4"
+        label-cols-lg="3">
+        <b-form-radio-group
+          id="radio-group-type"
+          v-model="form.typeAccount"
+          :options="listAccounts"
+          value-field="name"
+          text-field="name"
+        ></b-form-radio-group>
+      </b-form-group>
+
+
       <b-form-group
         id="input-group-1"
         label="Amount:"
@@ -38,7 +52,7 @@
           id="input-3"
           v-model="form.description"
           required
-          placeholder="Enter name"
+          placeholder="Put your description "
         ></b-form-input>
       </b-form-group>
 
@@ -47,18 +61,6 @@
         label-cols-sm="4"
         label-cols-lg="3">
         <b-form-datepicker id="input-4" v-model="form.date" class="mb-2"></b-form-datepicker>
-      </b-form-group>
-
-      <b-form-group label="Account Type" 
-        label-for="radio-group-type"
-        label-cols-sm="4"
-        label-cols-lg="3">
-        <b-form-radio-group
-          id="radio-group-type"
-          v-model="form.typeAccount"
-          :options="listAccounts"
-          name="radio-options"
-        ></b-form-radio-group>
       </b-form-group>
 
       <b-button v-if="!state" @click="addNewTrans" class="ml-2 float-right" type="submit" variant="primary">Create</b-button>
@@ -74,6 +76,7 @@ export default {
   data() {
     return {
       form: {
+        id: null,
         amount: 0,
         category: '',
         date: null,
@@ -108,25 +111,16 @@ export default {
     },
   },
   methods: {
-    submitForm(){
-      if (this.state) {
-        
-      } else {
-        this.addNewTrans(evt)
-      }
-    },
     addNewTrans(evt){
       evt.preventDefault()
       let data = this.form
       data.id = Math.floor((Math.random() * 1000) + 1);
-      console.log('add data', data)
       this.$emit('handleSubmit', data, false)
       this.resetForm()
     },
     updateTrans(evt){
       evt.preventDefault()
       let data = this.form
-      console.log('edit data', data)
       this.$emit('handleEdit', data, data.id, false)
       this.resetForm()
     },

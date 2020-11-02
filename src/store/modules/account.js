@@ -3,8 +3,18 @@ const data = {
   namespaced: true,
   state: {
     accountType: [
-      "Bank",
-      "Loan",
+      {
+        id: 1,
+        name: "Bank",
+      },
+      {
+        id: 2,
+        name: "Cash",
+      },
+      {
+        id: 3,
+        name: "Credit Card",
+      },
     ],
     categories: [
       'Shopping',
@@ -63,6 +73,13 @@ const data = {
     DEL_TRANSACTION: (state, index) => {
       state.transanctions.splice(index,1)
     },
+    UPDATE_ACCOUNT_TYPE: (state, payload) => {
+      let indexObj = state.accountType.findIndex(value => value.id === payload.id)
+      state.accountType[indexObj] = payload
+    },
+    DEL_ACCOUNT_TYPE: (state, index) => {
+      state.accountType.splice(index,1)
+    },
   },
   actions: {
     addNewAccountType({commit}, payload){
@@ -76,6 +93,12 @@ const data = {
     },
     deleteTransaction({commit}, payloadIndex){
       commit('DEL_TRANSACTION', payloadIndex)
+    },
+    updateAccountType({commit}, payload){
+      commit('UPDATE_ACCOUNT_TYPE', payload)
+    },
+    deleteAccountType({commit}, payload){
+      commit('DEL_ACCOUNT_TYPE', payload)
     },
   }
 }

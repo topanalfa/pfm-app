@@ -4,10 +4,10 @@
     <template v-if="accountType.length > 0">
       <b-list-group v-for="(item, index) in accountType" :key="index">
         <b-list-group-item class="mb-1 d-flex w-100 justify-content-between">
-          <strong>{{item}}</strong>
+          <strong>{{item.name}}</strong>
           <div class="d-flex">
-            <b-button size="sm" variant="outline-secondary" class="mr-1"><b-icon icon="pencil" aria-hidden="true"></b-icon></b-button>
-            <b-button size="sm" variant="outline-danger"><b-icon icon="trash" aria-hidden="true"></b-icon></b-button>
+            <b-button size="sm" @click="updateType(item)" variant="outline-secondary" class="mr-1"><b-icon icon="pencil" aria-hidden="true"></b-icon></b-button>
+            <b-button size="sm" @click="deleteType(index)" variant="outline-danger"><b-icon icon="trash" aria-hidden="true"></b-icon></b-button>
           </div>
         </b-list-group-item>
       </b-list-group>
@@ -23,11 +23,13 @@ export default {
     }
   },
   methods: {
-    edit(item){
+    updateType(item){
       console.log(item);
+      this.$emit('handleEditType', item)
     },
-    delete(id){
-      console.log(id);
+    deleteType(index){
+      console.log(index);
+      this.$emit('handleDeleteType',index)
     },
   }
 }
