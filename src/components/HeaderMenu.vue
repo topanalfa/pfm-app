@@ -5,13 +5,13 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
+      <template v-if="loggedInUser">
       <b-navbar-nav>
         <b-nav-item to="/account-types">Account Types</b-nav-item>
         <b-nav-item to="/transactions">Transactions</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
-      <template v-if="loggedInUser">
       <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->

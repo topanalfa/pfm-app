@@ -1,5 +1,5 @@
 <template>
-  <b-containerv if="userAuthenticate">
+  <b-container if="userAuthenticate">
     <ModalAccountType 
       :propsModalType="modalType" 
       :dataEditType="dataType"
@@ -25,7 +25,7 @@
         </div>
       </b-col>
     </b-row>
-  </b-containerv>
+  </b-container>
 </template>
 
 <script>

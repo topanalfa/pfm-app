@@ -108,11 +108,6 @@ export default {
     authenticateUser(dataUser){
       this.checkExistUser(dataUser)
     },
-    loadUsers(){
-      this.users.map(val => {
-        console.log(val);
-      })
-    },
     insertNewAccount(data){
       this.addNewAccountType(data)
     },

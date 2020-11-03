@@ -10,7 +10,7 @@
         <p>
           {{item.description}}
         </p>
-        <h4 class="float-right" style="color:salmon;">{{item.amount}}</h4>
+        <h4 class="float-right" style="color:salmon;">Rp {{item.amount}}</h4>
       </div>
       <div class="d-flex justify-content-between">
         <div>

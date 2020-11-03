@@ -19,6 +19,7 @@ const data = {
     categories: [
       'Shopping',
       'Gift',
+      'Transportation',
       'Traveling',
       'Investemnt',
     ],
@@ -34,10 +35,26 @@ const data = {
       {
         id:2,
         category: 'Gift',
-        date: "2020-11-09",
-        typeAccount: 'Loan',
+        date: "2020-11-03",
+        typeAccount: 'Cash',
         amount: 120000,
-        description: 'Gaji Okt',
+        description: 'Sepatu LV',
+      },
+      {
+        id:3,
+        category: 'Transportation',
+        date: "2020-11-03",
+        typeAccount: 'Cash',
+        amount: 50000,
+        description: 'Taxi',
+      },
+      {
+        id:4,
+        category: 'Traveling',
+        date: "2020-10-10",
+        typeAccount: 'Credit Card',
+        amount: 100000,
+        description: 'Tiket ke bali',
       },
     ]
   },

@@ -30,9 +30,18 @@
         </b-row>
       </b-col>
       <b-col lg="5" class="ml-2">
-        <b-row>
-          <h3 class="mb-2">All Transaction Records</h3>
-          <b-table class="mt-3" striped hover :items="items" :fields="fields"></b-table>
+        <b-row class="d-block">
+          <h3 class="mb-2 ml-3">All Transaction Records</h3>
+          <b-col class="pt-3 mb-2">
+            <b-card title="Transaction Today" >
+              <b-card-text>Total spent Today {{today}} = <span class="total">Rp {{totalToday}}</span></b-card-text>
+            </b-card>
+          </b-col>
+          <b-col>
+            <b-card title="Transaction this Month">
+              <b-card-text>Total spent in {{month}} = <span class="total">Rp {{totalInMonth}}</span></b-card-text>
+            </b-card>
+          </b-col>
         </b-row>
       </b-col>
     </b-row>
@@ -41,6 +50,7 @@
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import moment from 'moment'
 
 import ListTransaction from '@/components/ListTransaction.vue'
 import ModalTransaction from '@/components/modals/Transaction.vue'
@@ -51,6 +61,12 @@ export default {
   data(){
     return {
       title: 'Transactions',
+      moment: null,
+      today: null,
+      month: '',
+      totalToday: 0,
+      totalInMonth: 0,
+      numbMonth: null,
       searchValue: '',
       dataTransaksi: [],
       dataCategories: [],
@@ -73,7 +89,7 @@ export default {
             sortable: true,
           }
         ],
-        items: [
+        dataTable: [
           { amount: 40000, account_type: 'Dickerson', category: 'Macdonald' },
           { amount: 210000, account_type: 'Larsen', category: 'Shaw' },
           { amount: 89000, account_type: 'Geneva', category: 'Wilson' },
@@ -106,13 +122,11 @@ export default {
   },
   created(){
     this.dataCategories = this.categories
+    this.initDate()
+    this.moment = new moment()
   },
   mounted(){
-    if (!this.userAuthenticate) {
-      this.$router.push({path:'/'})
-    }
     this.dataTransaksi = this.transanctions
-    this.dataCategories.unshift('All')
   },
   methods: {
     ...mapActions('Account',[
@@ -122,6 +136,7 @@ export default {
     addNewTrans(data, bool){
       this.modalTrans = bool
       this.addNewTransaction(data)
+      this.initDataReport()
     },
     editTrans(data, id, bool){
       this.stateTransaction= false
@@ -150,11 +165,40 @@ export default {
       } else {
         this.dataTransaksi = copyData
       }
+    },
+    initDataReport(){
+      let filterTodayData = this.transanctions.filter(value => {
+        return value.date == this.today
+      })
+      let filterMonthData = this.transanctions.filter(value => {
+        let getNumbMonth = value.date.split('-')
+        if (getNumbMonth[1] == this.numbMonth ) {
+          return value
+        }
+      })
+      const reducer = (accumulator, currentValue) => accumulator + currentValue;
+      this.totalToday = filterTodayData.reduce((acc,curr) => { return acc + Number(curr.amount) }, 0)
+      this.totalInMonth = filterMonthData.reduce((acc,curr) => { return acc + Number(curr.amount) }, 0)
+    },
+    async initDate(){
+      var months = [ "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December" ];
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      this.today = await yyyy + '-' + mm + '-' + dd;
+      this.numbMonth = await this.moment.month()+1
+      this.month = months[this.moment.month()]
+      await this.initDataReport()
     }
   }
 }
 </script>
 
 <style>
-
+.total {
+  color: blue;
+}
 </style>

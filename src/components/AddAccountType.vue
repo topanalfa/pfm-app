@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <b-form-input v-model="typeName" @keyup.enter="submitData" placeholder="Type of account"></b-form-input>
+    <b-form-input v-model="typeName" @keyup.enter="submitData" placeholder="New account name"></b-form-input>
     <b-button @click="submitData" class="ml-3" size="sm" variant="outline-primary">Create</b-button>
   </div>
 </template>

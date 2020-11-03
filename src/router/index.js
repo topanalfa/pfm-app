@@ -27,6 +27,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Transactions.vue')
   },
   {
+    path: '/transaction-by-account',
+    name: 'Transactions By Account',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/TransactionByAccount.vue')
+  },
+  {
     path: '/profile',
     name: 'Profile',
     // route level code-splitting
