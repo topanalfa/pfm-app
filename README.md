@@ -1,4 +1,9 @@
 # catat-keuangan
+## Info account for login to app
+```
+username: admin
+password: password
+```
 
 ## Project setup
 ```

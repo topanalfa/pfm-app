@@ -24,15 +24,12 @@ export default {
   },
   methods: {
     updateType(item){
-      console.log(item);
       this.$emit('handleEditType', item)
     },
     deleteType(index){
-      console.log(index);
       this.$emit('handleDeleteType',index)
     },
     gotoTransaction(value) {
-      console.log(value);
       this.$router.push({path: '/transaction-by-account', query: value})
     }
   }
